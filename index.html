@@ -184,14 +184,23 @@
             display: none;
         }
         /* Base Section Styling */
+/* --- Marquee Section Base --- */
 .marquee-section {
-    padding: 20px 0; /* Thin on mobile */
+    overflow: hidden;
+    padding: 20px 0;
+    background-color: rgb(249, 250, 251); /* Original gray-50 */
     border-top: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
-    background-color: #f9fafb;
-    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Dark Mode Background & Borders */
+.dark .marquee-section {
+    background-color: rgba(7, 8, 8, 0.5); /* Original brand-gray/50 */
+    border-color: #1f2937;
+}
+
+/* --- Layout Containers --- */
 .marquee-wrapper {
     position: relative;
     display: flex;
@@ -202,39 +211,39 @@
 .marquee-content {
     display: flex;
     align-items: center;
-    gap: 2rem; /* space-x-8 on mobile */
-    padding: 24px 0; /* py-6 on mobile */
+    gap: 2rem;       /* space-x-8 mobile */
+    padding: 24px 0; /* py-6 mobile */
 }
 
-/* Individual Text Styling */
+/* --- Typography & Colors --- */
 .marquee-item {
-    font-family: inherit; /* Uses your display font */
+    font-family: inherit;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 1.5rem; /* text-2xl on mobile */
+    font-size: 1.5rem; /* text-2xl mobile */
 }
 
 .marquee-item.primary {
-    color: #f97316; /* Your brand orange */
+    color: #f97316; /* Brand Orange */
 }
 
 .marquee-item.secondary {
     color: rgba(156, 163, 175, 0.3); /* gray-400/30 */
 }
 
-/* --- RESPONSIVE DESKTOP SETTINGS --- */
+/* --- Desktop Responsiveness (Tablet and Up) --- */
 @media (min-width: 768px) {
     .marquee-section {
-        padding: 40px 0; /* py-10 on desktop */
+        padding: 40px 0; /* py-10 desktop */
     }
 
     .marquee-content {
-        gap: 4rem; /* space-x-16 on desktop */
-        padding: 48px 0; /* py-12 on desktop */
+        gap: 4rem;       /* space-x-16 desktop */
+        padding: 48px 0; /* py-12 desktop */
     }
 
     .marquee-item {
-        font-size: 2.25rem; /* text-4xl on desktop */
+        font-size: 2.25rem; /* text-4xl desktop */
     }
 }
     </style>
@@ -256,7 +265,7 @@
                     <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-brand-orange"></i>
                 </button>
                 
-                <a href="#contact" class="text-white bg-brand-orange hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block transition-transform hover:scale-105">Let's Talk</a>
+                <a href="#social-links" class="text-white bg-brand-orange hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block transition-transform hover:scale-105">Let's Talk</a>
                 
                 <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
@@ -637,7 +646,7 @@
                 <button type="submit" class="w-full text-white bg-brand-orange hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-lg px-5 py-3 text-center transition-all hover:scale-[1.01]">Send Message</button>
             </form>
 
-            <div class="mt-8 flex justify-center space-x-6">
+            <div id = "social-links" class="mt-8 flex justify-center space-x-6">
                 <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
                 <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-dribbble"></i></a>
