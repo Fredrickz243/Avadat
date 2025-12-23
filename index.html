@@ -183,6 +183,60 @@
         .project-card.hidden-card {
             display: none;
         }
+        /* Base Section Styling */
+.marquee-section {
+    padding: 20px 0; /* Thin on mobile */
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    overflow: hidden;
+}
+
+.marquee-wrapper {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* space-x-8 on mobile */
+    padding: 24px 0; /* py-6 on mobile */
+}
+
+/* Individual Text Styling */
+.marquee-item {
+    font-family: inherit; /* Uses your display font */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem; /* text-2xl on mobile */
+}
+
+.marquee-item.primary {
+    color: #f97316; /* Your brand orange */
+}
+
+.marquee-item.secondary {
+    color: rgba(156, 163, 175, 0.3); /* gray-400/30 */
+}
+
+/* --- RESPONSIVE DESKTOP SETTINGS --- */
+@media (min-width: 768px) {
+    .marquee-section {
+        padding: 40px 0; /* py-10 on desktop */
+    }
+
+    .marquee-content {
+        gap: 4rem; /* space-x-16 on desktop */
+        padding: 48px 0; /* py-12 on desktop */
+    }
+
+    .marquee-item {
+        font-size: 2.25rem; /* text-4xl on desktop */
+    }
+}
     </style>
 </head>
 <body class="bg-brand-light text-brand-dark dark:bg-brand-dark dark:text-white transition-colors duration-300 overflow-x-hidden">
@@ -282,31 +336,31 @@
         </div>
     </section>
 
-    <!-- Services/Tech Marquee -->
-    <section id="services" class="py-10 border-y border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-brand-gray/50">
-        <div class="relative flex overflow-x-hidden group">
-            <div class="py-12 animate-marquee whitespace-nowrap flex space-x-16 items-center">
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Web Development</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">UI/UX Design</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Branding</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">SEO Optimization</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">E-Commerce</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Web Development</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">UI/UX Design</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Branding</span>
-            </div>
-            <div class="absolute top-0 py-12 animate-marquee2 whitespace-nowrap flex space-x-16 items-center">
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Web Development</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">UI/UX Design</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Branding</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">SEO Optimization</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">E-Commerce</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Web Development</span>
-                <span class="text-4xl font-display font-bold text-brand-orange uppercase">UI/UX Design</span>
-                <span class="text-4xl font-display font-bold text-gray-400/30 dark:text-white/20 uppercase">Branding</span>
-            </div>
+    <section id="services" class="marquee-section">
+    <div class="marquee-wrapper">
+        <div class="marquee-content animate-marquee">
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+            <span class="marquee-item secondary">SEO Optimization</span>
+            <span class="marquee-item primary">E-Commerce</span>
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
         </div>
-    </section>
+        <div class="marquee-content animate-marquee2">
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+            <span class="marquee-item secondary">SEO Optimization</span>
+            <span class="marquee-item primary">E-Commerce</span>
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+        </div>
+    </div>
+</section>
+
     <!-- Portfolio Section -->
     <section id="portfolio" class="py-24 relative">
         <div class="container mx-auto px-6">
