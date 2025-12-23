@@ -1,1 +1,850 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avadat Tech | Modern Creative Developer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#ff6b00',
+                            dark: '#0a0a0a',
+                            light: '#f4f4f5',
+                            gray: '#171717'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff6b00;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e05e00;
+        }
+
+        /* Selection Color */
+        ::selection {
+            background: #ff6b00;
+            color: white;
+        }
+
+        /* Hero Background Media */
+        .hero-media-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .hero-media-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.5));
+            z-index: 1;
+        }
+
+        .hero-bg-image,
+        .hero-bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Scrolling Screenshot Logic */
+        .project-window {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 0.75rem 0.75rem 0 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .project-img {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 4s ease-in-out;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        /* Placeholder for missing images */
+        .project-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            z-index: 1;
+        }
+
+        .project-img[src=""],
+        .project-img:not([src]) {
+            opacity: 0;
+        }
+
+        .project-card:hover .project-img {
+            transform: translateY(calc(-100% + 350px));
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .dark .glass {
+            background: rgba(10, 10, 10, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        html:not(.dark) .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Text Stroke for Outline Effect */
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+            color: transparent;
+        }
+        html:not(.dark) .text-outline {
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hide extra cards initially */
+        .project-card.hidden-card {
+            display: none;
+        }
+        /* Base Section Styling */
+/* --- Marquee Section Base --- */
+.marquee-section {
+    overflow: hidden;
+    padding: 20px 0;
+    background-color: rgb(249, 250, 251); /* Original gray-50 */
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark Mode Background & Borders */
+.dark .marquee-section {
+    background-color: rgba(7, 8, 8, 0.5); /* Original brand-gray/50 */
+    border-color: #1f2937;
+}
+
+/* --- Layout Containers --- */
+.marquee-wrapper {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;       /* space-x-8 mobile */
+    padding: 24px 0; /* py-6 mobile */
+}
+
+/* --- Typography & Colors --- */
+.marquee-item {
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem; /* text-2xl mobile */
+}
+
+.marquee-item.primary {
+    color: #f97316; /* Brand Orange */
+}
+
+.marquee-item.secondary {
+    color: rgba(156, 163, 175, 0.3); /* gray-400/30 */
+}
+
+/* --- Desktop Responsiveness (Tablet and Up) --- */
+@media (min-width: 768px) {
+    .marquee-section {
+        padding: 40px 0; /* py-10 desktop */
+    }
+
+    .marquee-content {
+        gap: 4rem;       /* space-x-16 desktop */
+        padding: 48px 0; /* py-12 desktop */
+    }
+
+    .marquee-item {
+        font-size: 2.25rem; /* text-4xl desktop */
+    }
+}
+    </style>
+</head>
+<body class="bg-brand-light text-brand-dark dark:bg-brand-dark dark:text-white transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between p-4">
+            <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse group">
+                <div class="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center text-white font-bold group-hover:rotate-90 transition-transform duration-300">A</div>
+                <span class="self-center text-2xl font-display font-bold whitespace-nowrap dark:text-white tracking-tighter">Avadat<span class="text-brand-orange">Tech</span>.</span>
+            </a>
+            
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center gap-4">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon hidden text-brand-orange"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-brand-orange"></i>
+                </button>
+                
+                <a href="#social-links" class="text-white bg-brand-orange hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block transition-transform hover:scale-105">Let's Talk</a>
+                
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                    <li>
+                        <a href="#home" class="block py-2 px-3 text-white bg-brand-orange rounded md:bg-transparent md:text-brand-orange md:p-0" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#portfolio" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-brand-orange md:p-0 md:dark:hover:text-brand-orange dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors">Work</a>
+                    </li>
+                    <li>
+                        <a href="#services" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-brand-orange md:p-0 md:dark:hover:text-brand-orange dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors">Services</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Custom Image/Video Support -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        
+        <!-- CUSTOM BACKGROUND MEDIA (Image or Video) -->
+        <!-- To use: uncomment ONE of the options below and add your file path -->
+        
+        <div class="hero-media-container">
+            <!-- OPTION 1: Background Image -->
+            <!-- <img src="your-hero-image.jpg" alt="Hero Background" class="hero-bg-image"> -->
+            
+            <!-- OPTION 2: Background Video -->
+            <!-- <video autoplay muted loop playsinline class="hero-bg-video">
+                <source src="your-hero-video.mp4" type="video/mp4">
+            </video> -->
+        </div>
+
+        <!-- Background Blobs (Animated) -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-brand-orange rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 4s;"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="gsap-hero opacity-0 translate-y-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-sm font-semibold mb-6 tracking-wider">
+                    FREELANCE DEVELOPER & DESIGNER
+                </span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 leading-tight">
+                    Crafting Digital <br>
+                    <span class="text-brand-orange relative">
+                        Masterpieces
+                        <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-orange opacity-60" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00024 6.99999C22.6841 3.5222 56.4485 1.5037 83.9997 3.50001C111.551 5.49633 134.795 6.99999 198 2.00002" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    </span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto font-light">
+                    I design and build minimalist, high-performance websites that convert visitors into customers. Let's turn your vision into a scroll-stopping reality.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#portfolio" class="px-8 py-4 bg-brand-orange text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg shadow-brand-orange/30 hover:shadow-brand-orange/50 hover:-translate-y-1">
+                        View Projects <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#contact" class="px-8 py-4 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all font-medium">
+                        Hire Me
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer">
+                <a href="#services" class="text-gray-400 hover:text-brand-orange transition-colors">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="marquee-section">
+    <div class="marquee-wrapper">
+        <div class="marquee-content animate-marquee">
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+            <span class="marquee-item secondary">SEO Optimization</span>
+            <span class="marquee-item primary">E-Commerce</span>
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+        </div>
+        <div class="marquee-content animate-marquee2">
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+            <span class="marquee-item secondary">SEO Optimization</span>
+            <span class="marquee-item primary">E-Commerce</span>
+            <span class="marquee-item secondary">Web Development</span>
+            <span class="marquee-item primary">UI/UX Design</span>
+            <span class="marquee-item secondary">Branding</span>
+        </div>
+    </div>
+</section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 gsap-fade-up">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Selected <span class="text-brand-orange">Works</span></h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Hover over the cards to view the full design. Each project represents a unique problem solved through code and creativity.</p>
+            </div>
+
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                <!-- Project Card 1 -->
+                <div class="project-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-white-500 to-pink-500">
+                        <img src="jegolden.png" alt="Project 1" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="https://jegolden.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="Live Site">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">JeGolden</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">E-Commerce</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Shopify</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-blue-500 to-cyan-500">
+                        <img src="EliteBargains.png" alt="Project 2" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#"  class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="https://elitebargains.shop" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Elite Bargains</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">E-Commerce Store</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
+                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="project-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-orange-500 to-red-500">
+                        <img src="Stickycampaigns.png" alt="Project 3" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Stickycampaigns</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Creative Agency</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 (NEW - Hidden Initially) -->
+                <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-green-500 to-teal-500">
+                        <img src="Hoverview.png" alt="Project 4" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Hoverview</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Drone Agency</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 (NEW - Hidden Initially) -->
+                <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-indigo-500 to-purple-500">
+                        <img src="Swiftsales.png" alt="Project 5" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Swiftsales</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">E-Commerce</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Wordpress</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 (NEW - Hidden Initially) -->
+                <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+                    <div class="project-window relative bg-gradient-to-br from-yellow-500 to-orange-500">
+                        <img src="" alt="Project 6" class="project-img object-cover" onerror="this.style.opacity='0'">
+                        
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Food Delivery App</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Mobile App • React Native</p>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">React Native</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="mt-16 text-center">
+                <button id="load-more-btn" class="px-8 py-4 bg-brand-orange text-white font-bold rounded-lg hover:bg-orange-600 transition-all shadow-lg shadow-brand-orange/30 hover:shadow-brand-orange/50 hover:-translate-y-1 inline-flex items-center gap-2">
+                    Load More Projects <i class="fas fa-chevron-down"></i>
+                </button>
+                <a href="#" class="inline-flex items-center gap-2 text-brand-orange font-bold hover:underline underline-offset-4 mt-4 block">
+                    View Github <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Me -->
+    <section class="py-20 bg-gray-100 dark:bg-black/50">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="gsap-fade-right">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold mb-6">Not just code.<br><span class="text-brand-orange">Business Solutions.</span></h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        I don't just build websites; I build digital assets that grow with your business. Clean code, fast load times, and intuitive design are standard.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-orange"></i>
+                            <span class="font-medium">Responsive & Mobile First</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-orange"></i>
+                            <span class="font-medium">SEO Optimized Architecture</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-orange"></i>
+                            <span class="font-medium">Lightning Fast Performance</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative gsap-fade-left">
+                    <div class="absolute inset-0 bg-brand-orange blur-3xl opacity-20 rounded-full"></div>
+                    <div class="relative bg-white dark:bg-brand-gray p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl">
+                        <div class="flex items-center gap-4 mb-6 border-b border-gray-100 dark:border-gray-700 pb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="font-mono text-sm text-gray-600 dark:text-gray-400 space-y-2">
+                            <p><span class="text-purple-500">const</span> <span class="text-blue-500">developer</span> = {</p>
+                            <p class="pl-4">name: <span class="text-green-500">'You'</span>,</p>
+                            <p class="pl-4">goal: <span class="text-green-500">'Exceptional Website'</span>,</p>
+                            <p class="pl-4">status: <span class="text-brand-orange">'Hiring Expert'</span></p>
+                            <p>};</p>
+                            <p class="text-gray-400">// Let's build something amazing together</p>
+                            <p><span class="text-blue-500">startProject</span>(developer);</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto bg-white dark:bg-brand-gray rounded-3xl p-8 md:p-12 shadow-2xl border border-gray-200 dark:border-gray-800">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Let's work together</h2>
+                <p class="text-gray-500 dark:text-gray-400">Have a project in mind? Fill out the form below and I'll get back to you within 24 hours.</p>
+            </div>
+
+            <form action="https://formspree.io/f/xlgrazaw" method="POST" class="space-y-6">
+                
+                <input type="hidden" name="_subject" value="New Portfolio Inquiry!">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <input type="text" name="name" class="bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-3 transition-colors" placeholder="John Doe" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" name="_replyto" class="bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-3 transition-colors" placeholder="name@company.com" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Details</label>
+                    <textarea name="message" rows="4" class="bg-gray-50 dark:bg-black border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-3 transition-colors" placeholder="Tell me about your project..." required></textarea>
+                </div>
+                
+                <button type="submit" class="w-full text-white bg-brand-orange hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-lg px-5 py-3 text-center transition-all hover:scale-[1.01]">Send Message</button>
+            </form>
+
+            <div id = "social-links" class="mt-8 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-dribbble"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors text-2xl"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 py-8">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-display font-bold dark:text-white">Avadat<span class="text-brand-orange">Tech</span>.</span>
+                <p class="text-sm text-gray-500 mt-1"> &copy; <span id="currentYear"></span> All Rights Reserved.</p>
+            </div>
+            <div class="flex space-x-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-brand-orange transition-colors">Privacy</a>
+                <a href="#" class="hover:text-brand-orange transition-colors">Terms</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script>
+        // --- Current Year for Footer ---
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- Theme Toggle Logic ---
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Change the icons inside the button based on previous settings
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        var themeToggleBtn = document.getElementById('theme-toggle');
+
+        themeToggleBtn.addEventListener('click', function() {
+            // toggle icons inside button
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // if set via local storage previously
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                // if NOT set via local storage previously
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // --- Mobile Menu Logic ---
+        const btn = document.querySelector('[data-collapse-toggle="navbar-sticky"]');
+        const menu = document.getElementById('navbar-sticky');
+        
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // --- Load More Portfolio Cards Logic ---
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const hiddenCards = document.querySelectorAll('.project-card.hidden-card');
+        let cardsLoaded = false;
+
+        loadMoreBtn.addEventListener('click', function() {
+            if (!cardsLoaded) {
+                // Show all hidden cards with animation
+                hiddenCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.remove('hidden-card');
+                        gsap.from(card, {
+                            y: 50,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: "power2.out"
+                        });
+                    }, index * 150); // Stagger effect
+                });
+                
+                // Update button text
+                loadMoreBtn.innerHTML = 'All Projects Loaded <i class="fas fa-check"></i>';
+                loadMoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                loadMoreBtn.disabled = true;
+                cardsLoaded = true;
+            }
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animation
+        gsap.to(".gsap-hero", {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            ease: "power3.out",
+            delay: 0.2
+        });
+
+        // Project Cards stagger (only visible cards initially)
+               // Project Cards stagger (only visible cards initially) - FIXED
+        const visibleCards = document.querySelectorAll(".gsap-project:not(.hidden-card)");
+        
+        // Set initial state to visible
+        gsap.set(visibleCards, { opacity: 1, y: 0 });
+        
+        // Then animate from hidden to visible
+        gsap.fromTo(visibleCards, 
+            {
+                y: 50,
+                opacity: 0
+            },
+            {
+                scrollTrigger: {
+                    trigger: "#portfolio",
+                    start: "top 80%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out"
+            }
+        );
+
+
+        // Fade Up Generic
+        gsap.from(".gsap-fade-up", {
+            scrollTrigger: {
+                trigger: ".gsap-fade-up",
+                start: "top 85%",
+            },
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        // Fade Right
+        gsap.from(".gsap-fade-right", {
+            scrollTrigger: {
+                trigger: ".gsap-fade-right",
+                start: "top 80%",
+            },
+            x: -50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        // Fade Left
+        gsap.from(".gsap-fade-left", {
+            scrollTrigger: {
+                trigger: ".gsap-fade-left",
+                start: "top 80%",
+            },
+            x: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        // --- Additional Styles for Tailwind Marquee (injecting CSS) ---
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes marquee {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-100%); }
+            }
+            @keyframes marquee2 {
+                0% { transform: translateX(100%); }
+                100% { transform: translateX(0%); }
+            }
+            .animate-marquee {
+                animation: marquee 25s linear infinite;
+            }
+            .animate-marquee2 {
+                animation: marquee2 25s linear infinite;
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>
+
 
