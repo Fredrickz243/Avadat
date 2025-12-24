@@ -386,9 +386,9 @@
                         <img src="jegolden.png" alt="Project 1" class="project-img object-cover" onerror="this.style.opacity='0'">
                         
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
-                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details">
-                                <i class="fas fa-info"></i>
-                            </a>
+                            <button onclick="openProjectModal('jegolden')" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details">
+                                <i class="fas fa-info"></i></button>
+
                             <a href="https://jegolden.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="Live Site">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
@@ -415,9 +415,8 @@
                         <img src="EliteBargains.png" alt="Project 2" class="project-img object-cover" onerror="this.style.opacity='0'">
                         
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
-                            <a href="#"  class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-info"></i>
-                            </a>
+                            <button onclick="openProjectModal('elitebargains')" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details"><i class="fas fa-info"></i></button>
+
                             <a href="https://elitebargains.shop" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
@@ -444,9 +443,7 @@
                         <img src="Stickycampaigns.png" alt="Project 3" class="project-img object-cover" onerror="this.style.opacity='0'">
                         
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
-                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-info"></i>
-                            </a>
+                            <button onclick="openProjectModal('stickycampaigns')" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details"><i class="fas fa-info"></i></button>
                             <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
@@ -468,62 +465,62 @@
                 </div>
 
                 <!-- Project Card 4 (NEW - Hidden Initially) -->
-                <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
-                    <div class="project-window relative bg-gradient-to-br from-green-500 to-teal-500">
-                        <img src="Hoverview.png" alt="Project 4" class="project-img object-cover" onerror="this.style.opacity='0'">
-                        
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
-                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-info"></i>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Hoverview</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Drone Agency</p>
-                            </div>
-                            <div class="flex gap-2 text-xs">
-                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+    <div class="project-window relative bg-gradient-to-br from-green-500 to-teal-500">
+        <img src="Hoverview.png" alt="Hoverview" class="project-img object-cover" onerror="this.style.opacity='0'">
+        
+        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+            <button onclick="openProjectModal('hoverview')" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details">
+                <i class="fas fa-info"></i>
+            </button>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="Live Site">
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+        <div class="flex justify-between items-start mb-2">
+            <div>
+                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Hoverview</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Drone Agency</p>
+            </div>
+            <div class="flex gap-2 text-xs">
+                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                 <!-- Project Card 5 (NEW - Hidden Initially) -->
-                <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
-                    <div class="project-window relative bg-gradient-to-br from-indigo-500 to-purple-500">
-                        <img src="Swiftsales.png" alt="Project 5" class="project-img object-cover" onerror="this.style.opacity='0'">
-                        
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
-                            <a href="#" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-info"></i>
-                            </a>
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Swiftsales</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">E-Commerce</p>
-                            </div>
-                            <div class="flex gap-2 text-xs">
-                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">Wordpress</span>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
+    <div class="project-window relative bg-gradient-to-br from-indigo-500 to-purple-500">
+        <img src="Swiftsales.png" alt="Swiftsales" class="project-img object-cover" onerror="this.style.opacity='0'">
+        
+        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20 pointer-events-none group-hover:pointer-events-auto">
+            <button onclick="openProjectModal('swiftsales')" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="View Details">
+                <i class="fas fa-info"></i>
+            </button>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors" title="Live Site">
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="p-6 relative z-30 bg-white dark:bg-brand-gray border-t border-gray-100 dark:border-gray-700">
+        <div class="flex justify-between items-start mb-2">
+            <div>
+                <h3 class="text-xl font-bold font-display group-hover:text-brand-orange transition-colors">Swiftsales</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">E-Commerce</p>
+            </div>
+            <div class="flex gap-2 text-xs">
+                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">WordPress</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                 <!-- Project Card 6 (NEW - Hidden Initially) -->
                 <div class="project-card hidden-card group bg-white dark:bg-brand-gray rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 gsap-project">
@@ -667,8 +664,224 @@
             </div>
         </div>
     </footer>
+        <!-- Project Modal Popup -->
+    <div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-brand-gray rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-800 transform transition-all">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-white dark:bg-brand-gray border-b border-gray-200 dark:border-gray-800 p-6 flex justify-between items-center z-10">
+                <h3 id="modal-title" class="text-2xl font-display font-bold text-brand-orange"></h3>
+                <button id="close-modal" class="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6">
+                <!-- Project Image -->
+                <div class="mb-6 rounded-xl overflow-hidden">
+                    <img id="modal-image" src="" alt="" class="w-full h-64 object-cover">
+                </div>
+                
+                <!-- Project Type & Tech Stack -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span id="modal-type" class="px-3 py-1 bg-brand-orange/10 text-brand-orange rounded-full text-sm font-semibold"></span>
+                    <div id="modal-tech" class="flex gap-2"></div>
+                </div>
+                
+                <!-- Project Description -->
+                <div id="modal-description" class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4 mb-6"></div>
+                
+                <!-- Project Features -->
+                <div id="modal-features" class="mb-6"></div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+                    <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 px-6 py-3 bg-brand-orange text-white font-bold rounded-lg hover:bg-orange-600 transition-all text-center">
+                        Visit Live Site <i class="fas fa-external-link-alt ml-2"></i>
+                    </a>
+                    <button id="modal-close-btn" class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all font-medium">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script>
+                        // --- Project Data for Modal ---
+        const projectData = {
+            'jegolden': {
+                title: 'JeGolden',
+                type: 'E-Commerce',
+                tech: ['Shopify', 'Liquid', 'JavaScript'],
+                image: 'jegolden.png',
+                liveLink: 'https://jegolden.com',
+                description: `
+                    <p>JeGolden is a premium eyewear e-commerce store built on Shopify, featuring a luxurious and editorial aesthetic that perfectly showcases high-end sunglasses and optical frames.</p>
+                    <p>The store combines stunning product photography with smooth animations and an intuitive shopping experience, making it easy for customers to find their perfect pair of glasses.</p>
+                `,
+                features: [
+                    'Custom Shopify theme with advanced product galleries',
+                    'Responsive design optimized for mobile shopping',
+                    'Smooth animations and transitions using GSAP',
+                    'Advanced filtering and product search',
+                    'Integrated payment processing and checkout'
+                ]
+            },
+            'elitebargains': {
+                title: 'Elite Bargains',
+                type: 'E-Commerce Store',
+                tech: ['WordPress', 'WooCommerce', 'PHP'],
+                image: 'EliteBargains.png',
+                liveLink: 'https://elitebargains.shop',
+                description: `
+                    <p>Elite Bargains is a dynamic e-commerce platform built on WordPress and WooCommerce, offering customers access to premium products at competitive prices.</p>
+                    <p>The site features a clean, modern design with powerful search and filtering capabilities, making it easy for shoppers to discover great deals.</p>
+                `,
+                features: [
+                    'Custom WordPress theme with WooCommerce integration',
+                    'Advanced product filtering and search',
+                    'Secure payment gateway integration',
+                    'Mobile-responsive design',
+                    'SEO-optimized product pages'
+                ]
+            },
+            'stickycampaigns': {
+                title: 'Stickycampaigns',
+                type: 'Creative Agency',
+                tech: ['WordPress', 'Custom Theme', 'CSS'],
+                image: 'Stickycampaigns.png',
+                liveLink: '#',
+                description: `
+                    <p>Stickycampaigns is a creative agency website showcasing innovative marketing solutions and campaign strategies for modern brands.</p>
+                    <p>The site features bold typography, engaging animations, and a portfolio section that highlights the agency's best work and client success stories.</p>
+                `,
+                features: [
+                    'Custom WordPress theme design',
+                    'Portfolio showcase with case studies',
+                    'Contact form with lead capture',
+                    'Blog section for marketing insights',
+                    'Fully responsive across all devices'
+                ]
+            },
+            // NEW PROJECT 4
+            'hoverview': {
+                title: 'Hoverview',
+                type: 'Drone Agency',
+                tech: ['WordPress', 'Custom Theme', 'Video Integration'],
+                image: 'Hoverview.png',
+                liveLink: '#', // Add the actual link when available
+                description: `
+                    <p>Hoverview is a cutting-edge drone services agency website that showcases aerial photography, videography, and surveying capabilities for commercial and creative projects.</p>
+                    <p>The site features stunning aerial imagery, smooth video integration, and an immersive design that captures the unique perspective that drone technology provides.</p>
+                `,
+                features: [
+                    'Custom WordPress theme with video backgrounds',
+                    'Portfolio gallery showcasing aerial photography',
+                    'Service packages and booking system',
+                    'Responsive design optimized for visual content',
+                    'Client testimonials and case studies'
+                ]
+            },
+            // NEW PROJECT 5
+            'swiftsales': {
+                title: 'Swiftsales',
+                type: 'E-Commerce',
+                tech: ['WordPress', 'WooCommerce', 'Payment Gateway'],
+                image: 'Swiftsales.png',
+                liveLink: '#', // Add the actual link when available
+                description: `
+                    <p>Swiftsales is a fast and efficient e-commerce platform built on WordPress, designed to provide customers with a seamless shopping experience and quick checkout process.</p>
+                    <p>The store emphasizes speed, simplicity, and security, making online shopping effortless for both customers and store administrators.</p>
+                `,
+                features: [
+                    'Lightning-fast WooCommerce setup',
+                    'One-click checkout optimization',
+                    'Multiple payment gateway integration',
+                    'Inventory management system',
+                    'Mobile-first responsive design',
+                    'SEO and performance optimized'
+                ]
+            }
+        };
+
+                // --- Modal Functions ---
+        const modal = document.getElementById('project-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const closeModalBtn2 = document.getElementById('modal-close-btn');
+
+        function openProjectModal(projectId) {
+            const project = projectData[projectId];
+            if (!project) return;
+
+            // Populate modal content
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-type').textContent = project.type;
+            document.getElementById('modal-image').src = project.image;
+            document.getElementById('modal-image').alt = project.title;
+            document.getElementById('modal-description').innerHTML = project.description;
+            document.getElementById('modal-live-link').href = project.liveLink;
+
+            // Add tech stack
+            const techContainer = document.getElementById('modal-tech');
+            techContainer.innerHTML = '';
+            project.tech.forEach(tech => {
+                const span = document.createElement('span');
+                span.className = 'px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm';
+                span.textContent = tech;
+                techContainer.appendChild(span);
+            });
+
+            // Add features
+            const featuresContainer = document.getElementById('modal-features');
+            if (project.features && project.features.length > 0) {
+                featuresContainer.innerHTML = `
+                    <h4 class="font-bold text-lg mb-3">Key Features:</h4>
+                    <ul class="space-y-2">
+                        ${project.features.map(feature => `
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-brand-orange mt-1"></i>
+                                <span>${feature}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } else {
+                featuresContainer.innerHTML = '';
+            }
+
+            // Show modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal events
+        closeModalBtn.addEventListener('click', closeProjectModal);
+        closeModalBtn2.addEventListener('click', closeProjectModal);
+        
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeProjectModal();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeProjectModal();
+            }
+        });
+
+
         // --- Current Year for Footer ---
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
@@ -845,9 +1058,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
